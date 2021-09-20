@@ -1,0 +1,210 @@
+import pandas as pd
+import selenium
+from selenium import webdriver 
+from selenium.webdriver.support.ui import Select
+import time
+import xlsxwriter 
+driverPath=r"C:\Users\Merit\Desktop\Pk\Day 10 - 13,15 - 19,21-24 (PYTHON)\chromedriver_win32\chromedriver.exe"
+driverPath
+
+driver = webdriver.Chrome(executable_path = driverPath)
+driver.get("https://www.cricbuzz.com/cricket-stats/icc-rankings/men/batting")
+driver.maximize_window()
+
+writer = pd.ExcelWriter('Batting.xlsx',engine='xlsxwriter')
+Batting=driver.find_element_by_xpath("//a[@id='batsmen-tab']").click()
+time.sleep(1)
+ 
+driver.find_element_by_xpath("//a[@id='batsmen-tests-tab']").click()
+Test = driver.find_elements_by_xpath("//a[@id='batsmen-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfTest= []
+for i in Test:
+    if i.text != '':
+        ListOfTest.append(i.text.split("\n"))
+print("Test: ", ListOfTest)
+ 
+
+driver.find_element_by_xpath("//a[@id='batsmen-odis-tab']").click()
+ODI = driver.find_elements_by_xpath("//a[@id='batsmen-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfODI= []
+for j in ODI:
+    if j.text != '':
+        ListOfODI.append(o.text.split("\n"))
+print("ODI: ", ListOfODI)
+ 
+
+driver.find_element_by_xpath("//a[@id='batsmen-t20s-tab']").click()
+T20 = driver.find_elements_by_xpath("//a[@id='batsmen-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfT20= []
+for k in T20:
+    if k.text != '':
+        ListOfT20.append(t.text.split("\n"))
+print("T20: ", ListOfT20)
+ 
+ 
+df = pd.DataFrame(ListOfTest,columns=["Position","Ranking","Player","Country","Rating"])
+df.to_excel(writer,sheet_name='Test',index=False)
+print(df)
+ 
+df1 = pd.DataFrame(ListOfODI,columns=["Position","Ranking","Player","Country","Rating"])
+df1.to_excel(writer,sheet_name='ODI',index=False)
+print(df1)
+ 
+df2 = pd.DataFrame(ListOfT20,columns=["Position","Ranking","Player","Country","Rating"])
+df2.to_excel(writer,sheet_name='T20',index=False)
+print(df2)
+ 
+writer.save()
+#-----------------------------------------------------------------------------------------------------
+
+Bowling = driver.find_element_by_xpath("//a[@id='bowlers-tab']").click()
+time.sleep(1)
+ 
+driver.find_element_by_xpath("//a[@id='bowlers-tests-tab']").click()
+BTest = driver.find_elements_by_xpath("//a[@id='bowlers-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfBTest= []
+for l in BTest:
+    if l.text != '':
+        ListOfBTest.append(bi.text.split("\n"))
+print("Test: ", ListOfBTest)
+ 
+driver.find_element_by_xpath("//a[@id='bowlers-odis-tab']").click()
+BODI = driver.find_elements_by_xpath("//a[@id='bowlers-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfBODI= []
+for m in BODI:
+    if m.text != '':
+        ListOfBODI.append(bo.text.split("\n"))
+print("ODI: ", ListOfBODI)
+ 
+
+driver.find_element_by_xpath("//a[@id='bowlers-t20s-tab']").click()
+BT20 = driver.find_elements_by_xpath("//a[@id='bowlers-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfBT20= []
+for n in BT20:
+    if n.text != '':
+        ListOfBT20.append(bt.text.split("\n"))
+print("T20: ", ListOfBT20)
+ 
+writer = pd.ExcelWriter('Bowling.xlsx',engine='xlsxwriter')
+ 
+df4 = pd.DataFrame(ListOfBTest,columns=["Position","Ranking","Player","Country","Rating"])
+df4.to_excel(writer,sheet_name='Test',index=False)
+print(df4)
+ 
+df5 = pd.DataFrame(ListOfBODI,columns=["Position","Ranking","Player","Country","Rating"])
+df5.to_excel(writer,sheet_name='ODI',index=False)
+print(df5)
+ 
+df6 = pd.DataFrame(ListOfBT20,columns=["Position","Ranking","Player","Country","Rating"])
+df6.to_excel(writer,sheet_name='T20',index=False)
+print(df6)
+ 
+writer.save()
+
+#-------------------------------------------------------------------------------------------------------------------------
+
+All_Rounder = driver.find_element_by_xpath("//a[@id='all-rounders-tab']").click()
+time.sleep(1)
+ 
+driver.find_element_by_xpath("//a[@id='allrounders-tests-tab']").click()
+ATest = driver.find_elements_by_xpath("//a[@id='allrounders-tests-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfATest= []
+for o in ATest:
+    if o.text != '':
+        ListOfATest.append(ai.text.split("\n"))
+print("Test: ", ListOfATest)
+ 
+driver.find_element_by_xpath("//a[@id='allrounders-odis-tab']").click()
+AODI = driver.find_elements_by_xpath("//a[@id='allrounders-odis-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfAODI= []
+for p in AODI:
+    if p.text != '':
+        ListOfAODI.append(ao.text.split("\n"))
+print("ODI: ", ListOfAODI)
+ 
+
+driver.find_element_by_xpath("//a[@id='allrounders-t20s-tab']").click()
+AT20 = driver.find_elements_by_xpath("//a[@id='allrounders-t20s-tab']//following::div[contains(@class,'cb-col cb-col-100 text-bold cb-font-14 cb-rank-hdr cb-bg-grey text-center')]//following::div[contains(@class,'cb-col cb-col-100 cb-font-14 cb-lst-itm text-center')]")
+ 
+ListOfAT20= []
+for q in AT20:
+    if q.text != '':
+        ListOfAT20.append(at.text.split("\n"))
+print("T20: ", ListOfAT20)
+ 
+writer = pd.ExcelWriter('All_Rounder.xlsx',engine='xlsxwriter')
+ 
+df7 = pd.DataFrame(ListOfATest,columns=["Position","Ranking","Player","Country","Rating"])
+df7.to_excel(writer,sheet_name='Test',index=False)
+print(df7)
+ 
+df8 = pd.DataFrame(ListOfAODI,columns=["Position","Ranking","Player","Country","Rating"])
+df8.to_excel(writer,sheet_name='ODI',index=False)
+print(df8)
+ 
+df9 = pd.DataFrame(ListOfAT20,columns=["Position","Ranking","Player","Country","Rating"])
+df9.to_excel(writer,sheet_name='T20',index=False)
+print(df9)
+ 
+writer.save()
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+
+Teams = driver.find_element_by_xpath("//a[@id='teams-tab']").click()
+time.sleep(1)
+ 
+driver.find_element_by_xpath("//a[@id='teams-tests-tab']").click()
+TTest = driver.find_elements_by_xpath("//a[@id='teams-tests-tab']//following::div[contains(@class,'cb-bg-grey text-center')]//following::div[contains(@class,'cb-brdr-thin-btm text-center')]")
+ 
+ListOfTTest= []
+for r in TTest:
+    if r.text != '':
+        ListOfTTest.append(ti.text.split("\n"))
+print("Test: ", ListOfTTest)
+ 
+driver.find_element_by_xpath("//a[@id='teams-odis-tab']").click()
+TODI = driver.find_elements_by_xpath("//a[@id='teams-odis-tab']//following::div[contains(@class,'cb-bg-grey text-center')]//following::div[contains(@class,'cb-brdr-thin-btm text-center')]")
+ 
+ListOfTODI= []
+for s in TODI:
+    if s.text != '':
+        ListOfTODI.append(to.text.split("\n"))
+print("ODI: ", ListOfTODI)
+ 
+
+driver.find_element_by_xpath("//a[@id='teams-t20s-tab']").click()
+TT20 = driver.find_elements_by_xpath("//a[@id='teams-t20s-tab']//following::div[contains(@class,'cb-bg-grey text-center')]//following::div[contains(@class,'cb-brdr-thin-btm text-center')]")
+ 
+ListOfTT20= []
+for t in TT20:
+    if t.text != '':
+        ListOfTT20.append(tt.text.split("\n"))
+print("T20: ", ListOfTT20)
+ 
+writer = pd.ExcelWriter('Teams.xlsx',engine='xlsxwriter')
+ 
+df10 = pd.DataFrame(ListOfTTest,columns=["Position","Team","Rating","Points"])
+df10.to_excel(writer,sheet_name='Test',index=False)
+print(df10)
+ 
+df11 = pd.DataFrame(ListOfTODI,columns=["Position","Team","Rating","Points"])
+df11.to_excel(writer,sheet_name='ODI',index=False)
+print(df11)
+ 
+df12 = pd.DataFrame(ListOfTT20,columns=["Position","Team","Rating","Points"])
+df12.to_excel(writer,sheet_name='T20',index=False)
+print(df12)
+ 
+writer.save()
+
+driver.back()
+
+driver.close()
