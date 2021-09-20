@@ -1,0 +1,16 @@
+import pandas as pd
+import selenium
+from selenium import webdriver 
+from selenium.webdriver.support.ui import Select
+import time
+import xlsxwriter 
+driverPath=r"C:\Users\Merit\Desktop\Pk\Day 10 - 13,15 - 19,21-24 (PYTHON)\chromedriver_win32\chromedriver.exe"
+driverPath
+
+driver = webdriver.Chrome(executable_path=driverPath)
+driver.get("https://www.cricbuzz.com/cricket-team")
+for i in range(1,38):
+    with open(r"C:\Users\Merit\Python_Programs(pk)\Images\img"+str(i)+".png",'wb') as file:
+        img = driver.find_element_by_xpath("//h1[contains(text(),'Cricket Teams')]//following::img["+str(i)+"]")
+        file.write(img.screenshot_as_png)
+driver.close()
