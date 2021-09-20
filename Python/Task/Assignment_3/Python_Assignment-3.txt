@@ -1,0 +1,30 @@
+import pandas as pd
+import selenium
+from selenium import webdriver 
+from selenium.webdriver.support.ui import Select
+import time
+driverPath=r"C:\Users\Merit\Desktop\Pk\Day 10 - 13,15 - 19,21-24 (PYTHON)\chromedriver_win32\chromedriver.exe"
+driverPath
+
+driver = webdriver.Chrome(executable_path = driverPath)
+driver.get("https://ai.fmcsa.dot.gov/hhg/Search.asp?ads=a&lan=en")
+writer = pd.ExcelWriter('State.xlsx',engine = 'xlsxwriter')
+
+for i in range (1,97):
+    state=driver.find_element_by_xpath("//option[contains(text(),'Please select state')]//following::option["+str(i)+"]")
+    state.click()
+    d = state.text
+    print(d,i)
+    
+    driver.find_element_by_xpath("//input[@name='Submit']").click()
+    a =  driver.find_elements_by_xpath("//tr[contains(@scope,'row')]")
+    
+    li = []
+    for j in a:
+        li.append(j.text.split("  "))
+    driver.back()
+    
+    df = pd.DataFrame(li,columns=["Name","Location","Type","Size"])
+    df.to_excel(writer,sheet_name = d ,index = False)
+
+writer.save()
